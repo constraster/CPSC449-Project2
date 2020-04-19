@@ -402,7 +402,7 @@ def favorite_message(mid: int):
     if message:
         message.flag = 1
         db.session.commit()
-        return jsonify(message="Favorited a message"), 202
+        return jsonify(message="Favorited a message"), 201
     else:
         return jsonify(message="Message does not exist"), 404
 
