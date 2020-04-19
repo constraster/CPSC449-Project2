@@ -251,7 +251,7 @@ def make_post():
 @app.route('/v1/api/posts/remove_post/<int:pid>', methods=['DELETE'])
 def delete_post(pid: int):
     post = Post.query.filter_by(postID=pid).first()
-    vote = Vote.query.filter_by(postID=pid).first()
+    vote = Votes.query.filter_by(postID=pid).first()
     if post:
         db.session.delete(post)
         db.session.delete(vote)
