@@ -24,7 +24,7 @@ def get_time():
 # holds their information
 class User(db.Model):
     __tablename__ = 'users'
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     username = Column(String)
     email = Column(String, unique=True)
     password = Column(String)
@@ -36,8 +36,8 @@ class User(db.Model):
 # holds information for posts
 class Post(db.Model):
     _table_name = 'post'
-    postID = Column(Integer, primary_key=True)
-    username = Column(String(20), unique=True, nullable=False)
+    postID = Column(Integer, primary_key=True, autoincrement=True)
+    username = Column(String(20), nullable=False)
     title = Column(String(120), nullable=False)
     text = Column(String(500), nullable=False)
     subreddit = Column(String(20), nullable=False)
@@ -61,7 +61,7 @@ class Post(db.Model):
 # holds information for votes
 class Votes(db.Model):
     _table_name = 'votes'
-    postID = Column(Integer, primary_key=True)
+    postID = Column(Integer, primary_key=True, autoincrement=True)
     upvotes = Column(Integer, default=0)
     downvotes = Column(Integer, default=0)
     def total_votes(self):
@@ -74,9 +74,9 @@ class Votes(db.Model):
 # holds information for messaging
 class Message(db.Model):
     _table_name = 'message'
-    messageID = Column(Integer, primary_key=True)
-    user_from = Column(String(20), unique=True, nullable=False)
-    user_to = Column(String(20), unique=True, nullable=False)
+    messageID = Column(Integer, primary_key=True, autoincrement=True, unique=True,)
+    user_from = Column(String(20), nullable=False)
+    user_to = Column(String(20), nullable=False)
     content = Column(String(500), nullable=False)
     timestamp = Column(DateTime, default=get_time())
     flag = Column(Integer, nullable=False, default=0)
@@ -243,7 +243,7 @@ def make_post():
         db.session.add(post)
         db.session.add(vote)
         db.session.commit()
-        return jsonify(message='Post created'), 201
+        return jsonify(message='Post created', postID=post.postID), 201
     else:
         return jsonify(message='Username does not exist'), 409
 
@@ -379,7 +379,7 @@ def send():
         db.session.add(message)
 
         db.session.commit()
-        return jsonify(message='Message created'), 201
+        return jsonify(message='Message created', messageID=message.messageID), 201
     else:
         return jsonify(message='Sender or receiver does not exist'), 409
 
