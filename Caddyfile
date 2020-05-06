@@ -9,4 +9,14 @@
         policy least_conn
         health_check /
     }
+    proxy /v1/api/voting localhost:8200-8203 {
+        transparent
+        policy least_conn
+        health_check /
+    }
+    proxy /v1/api/message localhost:8300-8303 {
+        transparent
+        policy least_conn
+        health_check /
+    }
 }
